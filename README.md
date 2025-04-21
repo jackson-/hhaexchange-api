@@ -38,8 +38,9 @@ curl -X POST "http://localhost:8000/" \
 }
 ```
 
-## Validation Testing
-`python test.py`
+## Testing
+`python test.py` for quick tests
+`pytest -v -s --asyncio-mode=auto test_main.py` for unit tests
 
 ## Limits and Trade-offs
 1. Concurrency limit is fixed at 100 and may need adjustment based on server resources
