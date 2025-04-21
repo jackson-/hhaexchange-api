@@ -6,6 +6,9 @@ from typing import List, Dict
 
 app = FastAPI()
 
+# Define semaphore at the module level
+semaphore = asyncio.Semaphore(100)
+
 class UrlRequest(BaseModel):
     urls: List[str]
 
@@ -40,8 +43,6 @@ async def check_urls(request: UrlRequest) -> Dict[str, Dict[str, str]]:
         raise HTTPException(status_code=400, detail="Maximum 100 URLs allowed")
 
     # Process URLs concurrently with semaphore to limit simultaneous connections
-    semaphore = asyncio.Semaphore(100)
-    
     async def limited_check(url):
         async with semaphore:
             return await check_availability(url)
